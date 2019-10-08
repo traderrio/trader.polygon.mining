@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MessagePack">
+        <Version>1.7.3.7</Version>
+      </PackageReference>
+      <PackageReference Include="Newtonsoft.Json">
+        <Version>12.0.2</Version>
+      </PackageReference>
+      <PackageReference Include="traderr.io.common">
+        <Version>1.2.6</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Converters" />
+      <Folder Include="Streaming" />
+    </ItemGroup>
+
+</Project>
