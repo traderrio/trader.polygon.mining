@@ -57,12 +57,6 @@ namespace Trader.Polygon.Api
             app.UseMvc();
 
             app.UseSignalR(routes => { routes.MapHub<StockPricesHub>("/stocks/prices"); });
-
-            app.UseHangfireServer(new BackgroundJobServerOptions{});
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new [] { new HangfireAuthorizationFilter(),  }
-            });
             
             Bootstrap(app.ApplicationServices);
         }

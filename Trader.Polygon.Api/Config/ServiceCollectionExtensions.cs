@@ -141,18 +141,8 @@ namespace Trader.Polygon.Api.Config
       public static IServiceCollection AddCustomizedHangfire(this IServiceCollection services,
             IConfiguration configuration)
         {
-            var mongoClientSettings = MongoClientSettings
-                .FromConnectionString(configuration.GetValue<string>("ConnectionStrings:Hangfire"));
-
+ 
             GlobalJobFilters.Filters.Add(new SkipWhenPreviousJobIsRunningAttribute());
-            services.AddHangfire(conf =>
-            {
-                conf.UseMongoStorage(mongoClientSettings, "polygon-hangfire", new MongoStorageOptions
-                {
-                    MigrationOptions = new MongoMigrationOptions(MongoMigrationStrategy.Drop),
-                    
-                });
-            });
 
             return services;
         }

@@ -12,14 +12,14 @@ namespace Trader.Polygon.Api
     {
         private void Bootstrap(IServiceProvider serviceProvider)
         {
-            var priceMemoryHolder = serviceProvider.GetRequiredService<ILastStockPriceMemoryHolder>();
-            priceMemoryHolder.LoadRecentAsync().Wait();
+            //var priceMemoryHolder = serviceProvider.GetRequiredService<ILastStockPriceMemoryHolder>();
+            //priceMemoryHolder.LoadRecentAsync().Wait();
 
-            var stocksStreamReceiver = serviceProvider.GetRequiredService<IStocksStreamReceiver>();
-            stocksStreamReceiver.ConnectAsync();
+            //var stocksStreamReceiver = serviceProvider.GetRequiredService<IStocksStreamReceiver>();
+            //stocksStreamReceiver.ConnectAsync();
 
-            var jobFactory = serviceProvider.GetRequiredService<IHangfireJobFactory>();
-            jobFactory.CreateAggCloseJob();
+            //var jobFactory = serviceProvider.GetRequiredService<IHangfireJobFactory>();
+            //jobFactory.CreateAggCloseJob();
         }
 
         private void JobManagerOnJobException(JobExceptionInfo exceptionInfo)
