@@ -46,46 +46,21 @@ namespace Trader.Polygon.Api.DataSavers
         public async Task SaveBulkLastTradeDataAsync(IList<StockLastTrade> stockLastTrades)
         {
             await _polygonStockLastTradesCollection.InsertManyAsync(stockLastTrades);
-            if (_env.IsProduction())
-            {
-                var url = $"{_appSettings.Value.Microservices.PolygonUrl}/api/stock-last-trade";
-                await url
-                    .PostJsonAsync(stockLastTrades)
-                    .ReceiveJson<BinaryIntegrationResponse>();
-
-                //TODO - can't save to another db for now
-                //await _apolloStockLastTradesCollection.InsertManyAsync(stockLastTrades);
-            }
         }
 
         public async Task SaveBulkLastQuoteDataAsync(IList<StockQuote> quotes)
         {
             await _polygonStockLastQuotesCollection.InsertManyAsync(quotes);
-            if (_env.IsProduction())
-            {
-                //TODO - can't save to another db for now
-                //await _apolloStockLastQuotesCollection.InsertManyAsync(quotes);
-            }
         }
 
         public async Task SaveBulkMinuteAggregatedDataAsync(IList<StockMinuteAggregated> aggregated)
         {
             await _polygonStockMinuteAggregatedCollection.InsertManyAsync(aggregated);
-            if (_env.IsProduction())
-            {
-                //TODO - can't save to another db for now
-                //await _apolloStockMinuteAggregatedCollection.InsertManyAsync(aggregated);
-            }
         }
 
         public async Task SaveBulkSecondAggregatedDataAsync(IList<StockSecondAggregated> aggregated)
         {
             await _polygonStockSecondAggregatedCollection.InsertManyAsync(aggregated);
-            if (_env.IsProduction())
-            {
-                //TODO - can't save to another db for now
-                //await _apolloStockSecondAggregatedCollection.InsertManyAsync(aggregated);
-            }
         }
     }
 }
