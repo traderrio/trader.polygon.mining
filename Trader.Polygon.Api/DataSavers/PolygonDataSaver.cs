@@ -58,6 +58,11 @@ namespace Trader.Polygon.Api.DataSavers
             await _specificPolygonDataSaver.SaveBulkLastTradeDataAsync(records);
         }
 
+        public async Task SaveStockLastQuotesAsync(IList<StockQuote> records)
+        {
+            await _specificPolygonDataSaver.SaveBulkLastQuoteDataAsync(records);
+        }
+
         private void ResolveSpecificDataSaver()
         {
             var saverType = _options.Value.Polygon.SaverType;
