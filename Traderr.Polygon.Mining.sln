@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Traderr.Polygon.Mining.Api", "Traderr.Polygon.Mining.Api\Traderr.Polygon.Mining.Api.csproj", "{5B6E9E3B-F052-4664-9A73-012827208A08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B6E9E3B-F052-4664-9A73-012827208A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B6E9E3B-F052-4664-9A73-012827208A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B6E9E3B-F052-4664-9A73-012827208A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B6E9E3B-F052-4664-9A73-012827208A08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
