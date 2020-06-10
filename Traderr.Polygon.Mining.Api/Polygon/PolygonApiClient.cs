@@ -19,17 +19,14 @@ namespace Traderr.Polygon.Mining.Api.Polygon
     public class PolygonApiClient : IPolygonApiClient
     {
         private readonly ILogger<IPolygonApiClient> _logger;
-        private readonly IHttpClientFactory _clientFactory;
         private readonly string _apiKey;
         private static string BaseUrl = "https://api.polygon.io";
         private static string StockHistoricalNbboUrl = "/v2/ticks/stocks/nbbo";
 
         public PolygonApiClient(ILogger<IPolygonApiClient> logger,
-            IOptions<AppSettings> appSettings,
-            IHttpClientFactory clientFactory)
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
-            _clientFactory = clientFactory;
             _apiKey = appSettings.Value.Polygon.ApiKey;
         }
 
@@ -38,6 +35,7 @@ namespace Traderr.Polygon.Mining.Api.Polygon
             long offset = 0,
             int limit = 50000)
         {
+            _logger.LogInformation($"Getting historical quotes for the {symbol}. From {fromDate} to {toDate}");
             CheckKeyExists();
             if (toDate < fromDate)
             {
@@ -53,6 +51,9 @@ namespace Traderr.Polygon.Mining.Api.Polygon
                 await handler(symbol, quotesPerDate);
                 date = date.AddDays(1);
             } while (date <= toDate);
+            
+            _logger.LogInformation($"Finished getting historical quotes for the {symbol}." +
+                                   $" From {fromDate} to {toDate}");
         }
 
         public async Task<IList<PolygonHistoricalNbboQuoteModel>> GetHistoricalQuotesForDateAsync(
@@ -60,10 +61,12 @@ namespace Traderr.Polygon.Mining.Api.Polygon
             long offset = 0,
             int limit = 50000)
         {
+            _logger.LogInformation($"Get historical quotes for the {symbol}. " +
+                                   $"Date: {date}, offset: {offset}, limit: {limit}");
+
             var quotes = new List<PolygonHistoricalNbboQuoteModel>();
 
             var baseUrl = $"{BaseUrl}{StockHistoricalNbboUrl}/{symbol}/{date}?apiKey={_apiKey}&limit={limit}";
-            var client = _clientFactory.CreateClient();
             try
             {
                 long count;
@@ -90,10 +93,13 @@ namespace Traderr.Polygon.Mining.Api.Polygon
 
                     var lastQuote = quotes.Last();
                     offset = lastQuote.DateTime.GetUnixTimeAsNanoSeconds();
+                    _logger.LogInformation($"Got historical quotes for the {symbol}. " +
+                                           $"Date: {date}, offset: {offset}, limit: {limit}. Count: {message.Count}");
                 } while (count == limit);
             }
             catch (FlurlHttpException e)
             {
+                _logger.LogError(e.Message, e);
                 if (e.Call.HttpStatus != HttpStatusCode.NotFound)
                 {
                     throw;

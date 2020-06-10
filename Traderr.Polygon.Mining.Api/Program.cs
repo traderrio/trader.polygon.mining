@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Filters;
+using Traderr.Polygon.Mining.Api.Polygon;
 
 namespace Traderr.Polygon.Mining.Api
 {
@@ -32,9 +34,16 @@ namespace Traderr.Polygon.Mining.Api
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(configuration)
-                .WriteTo.Async(a => a.File(pathToLogFolder + "main.log"))
+                .WriteTo.Logger(l => l.Filter.ByExcluding(Matching.FromSource<IPolygonApiClient>())
+                    .WriteTo.Async(a =>
+                        a.File(pathToLogFolder + "main.log", rollingInterval:RollingInterval.Day))
+                )
+                .WriteTo.Logger(l => l.Filter.ByIncludingOnly(Matching.FromSource<IPolygonApiClient>())
+                    .WriteTo.Async(a =>
+                        a.File(pathToLogFolder + "polygon-client.log", rollingInterval: RollingInterval.Day))
+                )
                 .CreateLogger();
-            
+
 
             try
             {
@@ -57,9 +66,6 @@ namespace Traderr.Polygon.Mining.Api
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }
