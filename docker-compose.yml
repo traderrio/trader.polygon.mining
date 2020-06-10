@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  traderr.polygon.mining.api:
+    image: ${DOCKER_REGISTRY-}traderrpolygonminingapi
+    build:
+      context: .
+      dockerfile: Dockerfile
